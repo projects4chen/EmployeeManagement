@@ -7,6 +7,7 @@ import com.sun.org.apache.xerces.internal.dom.PSVIAttrNSImpl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.Objects;
 import java.util.Properties;
 
 public class DbUtils {
@@ -15,7 +16,9 @@ public class DbUtils {
 
     static{
         Properties properties = new Properties();
-        InputStream inputStream = DbUtils.class.getResourceAsStream("database.properties");
+        InputStream inputStream = DbUtils.class.getResourceAsStream("/database.properties");
+        System.out.println(System.getProperty("user.dir"));
+        System.out.println("input:" + inputStream);
         try {
             properties.load(inputStream);
             ds = (DruidDataSource) DruidDataSourceFactory.createDataSource(properties);
@@ -59,7 +62,7 @@ public class DbUtils {
         }
     }
 
-    public static void rollbacck(){
+    public static void rollback(){
         Connection connection = null;
         try {
             connection = getConnection();

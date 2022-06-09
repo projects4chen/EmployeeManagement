@@ -31,6 +31,7 @@ public class AdminDaoImpl implements AdminDao {
     public Admin select(String username) {
         try {
             Admin admin = queryRunner.query(DbUtils.getConnection(), "select * from admin where username=?;", new BeanHandler<Admin>(Admin.class), username);
+            System.out.println("admin: " + admin);
             return admin;
         } catch (SQLException e) {
             e.printStackTrace();

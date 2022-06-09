@@ -23,7 +23,7 @@ public class AdminServiceImpl implements AdminService {
             }
             DbUtils.commit();
         } catch (Exception e) {
-            DbUtils.rollbacck();
+            DbUtils.rollback();
             e.printStackTrace();
         }
         return result;
