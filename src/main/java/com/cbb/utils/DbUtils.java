@@ -17,8 +17,6 @@ public class DbUtils {
     static{
         Properties properties = new Properties();
         InputStream inputStream = DbUtils.class.getResourceAsStream("/database.properties");
-        System.out.println(System.getProperty("user.dir"));
-        System.out.println("input:" + inputStream);
         try {
             properties.load(inputStream);
             ds = (DruidDataSource) DruidDataSourceFactory.createDataSource(properties);
