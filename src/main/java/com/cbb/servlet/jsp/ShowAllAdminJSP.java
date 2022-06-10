@@ -1,12 +1,14 @@
-package com.cbb.servlet;
+package com.cbb.servlet.jsp;
 
 import com.cbb.entity.Admin;
+import com.cbb.entity.Manager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -16,7 +18,8 @@ public class ShowAllAdminJSP extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=utf-8");
-
+        HttpSession session = req.getSession();
+        Manager mgr = (Manager) session.getAttribute("mgr");
         List<Admin> adminList = (List)req.getAttribute("admins");
 
         PrintWriter printWriter = resp.getWriter();
@@ -27,6 +30,7 @@ public class ShowAllAdminJSP extends HttpServlet {
             printWriter.println("<title>显示所有</title>");
             printWriter.println("</head>");
             printWriter.println("<body>");
+            printWriter.println("<h1>欢迎您：" + mgr.getUsername() + "</h1>");
             printWriter.println("<table border='1'>");
             printWriter.println("   <tr>");
             printWriter.println("       <td>username</td>");
