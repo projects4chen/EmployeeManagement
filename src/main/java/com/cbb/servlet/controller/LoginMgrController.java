@@ -22,21 +22,31 @@ public class LoginMgrController extends HttpServlet {
         // 2. 收参
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        // 3. 调用业务方法
-        ManagerService managerService = new ManagerServiceImpl();
-        Manager mgr = managerService.login(username, password);
-        // 4. 处理结果，流程跳转
-        if(mgr != null){
-            // 登录成功
-            // 将管理员信息存储在session里
-            HttpSession session = req.getSession();
-            session.setAttribute("mgr", mgr);
-            // 跳转
-            resp.sendRedirect("/showallcontroller");
+        String inputVcode = req.getParameter("inputVcode");
+
+        // 验证验证码
+        HttpSession session = req.getSession();
+        String codes = (String)session.getAttribute("codes");
+        if(!inputVcode.isEmpty() && inputVcode.equalsIgnoreCase(codes)){
+            // 3. 调用业务方法
+            ManagerService managerService = new ManagerServiceImpl();
+            Manager mgr = managerService.login(username, password);
+            // 4. 处理结果，流程跳转
+            if(mgr != null){
+                // 登录成功
+                // 将管理员信息存储在session里
+                session.setAttribute("mgr", mgr);
+                // 跳转
+                resp.sendRedirect("/showallcontroller");
+            }else{
+                // 登录失败
+                resp.sendRedirect("/loginMgr.html");
+            }
         }else{
-            // 登录失败
             resp.sendRedirect("/loginMgr.html");
         }
+
+
     }
 
     @Override
