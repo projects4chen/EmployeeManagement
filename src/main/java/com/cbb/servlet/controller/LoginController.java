@@ -19,9 +19,8 @@ import java.io.IOException;
 public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // 1. 处理乱码
-        req.setCharacterEncoding("UTF-8");
-        resp.setContentType("text/html;charset=utf-8");
+        // 1. 处理乱码, Filter已处理
+
         // 2. 收参
         String username = req.getParameter("username");
         String password = req.getParameter("password");
@@ -39,7 +38,7 @@ public class LoginController extends HttpServlet {
                 // 为管理员，将其信息存储在session里
                 session.setAttribute("mgr", mgr);
                 // 跳转
-                resp.sendRedirect("/showallcontroller");
+                resp.sendRedirect("/safe/showallcontroller");
             }else{
                 // 非管理员，判断是否为员工
                 AdminService adminService = new AdminServiceImpl();
@@ -48,7 +47,7 @@ public class LoginController extends HttpServlet {
                     // 为员工，将其信息存储在session中
                     session.setAttribute("admin", admin);
                     // 跳转
-                    req.getRequestDispatcher("/showhellojsp").forward(req, resp);
+                    req.getRequestDispatcher("/safe/showhellojsp").forward(req, resp);
                 }
                 // 非员工，重新登录
                 resp.sendRedirect("/login.html");

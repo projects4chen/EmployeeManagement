@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(value = "/showhellojsp")
+@WebServlet(value = "/safe/showhellojsp")
 public class ShowHelloJSP extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // 1. 设置编码
-        resp.setContentType("text/html;charset=utf-8");
+        // 1. 设置编码，已在Filter处理
+
         // 2. 返回欢迎页面
         Admin admin = (Admin)req.getSession().getAttribute("admin");
         PrintWriter printWriter = resp.getWriter();

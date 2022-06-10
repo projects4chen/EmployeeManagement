@@ -13,11 +13,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet(value = "/showalladminjsp")
+@WebServlet(value = "/safe/showalladminjsp")
 public class ShowAllAdminJSP extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html;charset=utf-8");
         HttpSession session = req.getSession();
         Manager mgr = (Manager) session.getAttribute("mgr");
         List<Admin> adminList = (List)req.getAttribute("admins");
@@ -37,6 +36,7 @@ public class ShowAllAdminJSP extends HttpServlet {
             printWriter.println("       <td>password</td>");
             printWriter.println("       <td>phone</td>");
             printWriter.println("       <td>address</td>");
+            printWriter.println("       <td colspan='2'>options</td>");
             printWriter.println("   </tr>");
             for(Admin admin : adminList){
                 printWriter.println("   <tr>");
@@ -44,6 +44,8 @@ public class ShowAllAdminJSP extends HttpServlet {
                 printWriter.println("       <td>" + admin.getPassword() + "</td>");
                 printWriter.println("       <td>" + admin.getPhone() + "</td>");
                 printWriter.println("       <td>" + admin.getAddress() + "</td>");
+                printWriter.println("       <td><a href='" + req.getContextPath() + "/safe/showadmin?username=" + admin.getUsername() + "'>修改</a></td>");
+                printWriter.println("       <td><a href='" + req.getContextPath() + "/safe/remove?username=" + admin.getUsername() + "'>删除</a></td>");
                 printWriter.println("   </tr>");
             }
             printWriter.println("</table>");

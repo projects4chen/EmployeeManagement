@@ -19,11 +19,23 @@ public class AdminDaoImpl implements AdminDao {
 
     @Override
     public int delete(String username) {
+        try {
+            int result = queryRunner.update(DbUtils.getConnection(), "delete from admin where username=?", username);
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 
     @Override
     public int update(Admin admin) {
+        try {
+            int result = queryRunner.update(DbUtils.getConnection(), "update Admin set password=?, phone=?, address=? where username=?", admin.getPassword(), admin.getPhone(), admin.getAddress(), admin.getUsername());
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 
@@ -31,7 +43,6 @@ public class AdminDaoImpl implements AdminDao {
     public Admin select(String username) {
         try {
             Admin admin = queryRunner.query(DbUtils.getConnection(), "select * from admin where username=?;", new BeanHandler<Admin>(Admin.class), username);
-            System.out.println("admin: " + admin);
             return admin;
         } catch (SQLException e) {
             e.printStackTrace();
